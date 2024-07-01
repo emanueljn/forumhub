@@ -1,4 +1,4 @@
-package com.forumhub.domain.topico;
+package com.forumhub.domain.topic;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 import java.util.Date;
 
 @Table(name = "topicos")
-@Entity(name = "Topico")
+@Entity(name = "Topic")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Topico {
+public class Topic {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +26,6 @@ public class Topico {
     private String curso;
     private String respostas;
 
+    @Enumerated(EnumType.STRING)
     private Status status;
-
 }

@@ -1,4 +1,4 @@
-package com.forumhub.domain.topico;
+package com.forumhub.domain.topic;
 
 public enum Status {
 
