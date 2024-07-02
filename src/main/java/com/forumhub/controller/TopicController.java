@@ -31,6 +31,4 @@ public class TopicController {
 
         return ResponseEntity.created(uri).body(new TopicDatailData(topico));
     }
-
-
 }

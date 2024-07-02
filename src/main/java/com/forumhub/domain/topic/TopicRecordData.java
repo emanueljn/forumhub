@@ -2,9 +2,7 @@ package com.forumhub.domain.topic;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
-import java.util.Date;
 
 public record TopicRecordData(
 
@@ -14,7 +12,7 @@ public record TopicRecordData(
         String mensagem,
         @NotBlank
         String autor,
-        @NotNull @Valid
+        @NotBlank @Valid
         String curso
 ) {
 }
