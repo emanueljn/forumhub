@@ -28,4 +28,11 @@ public class Topic {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    public Topic(TopicRecordData dados) {
+        this.titulo = dados.titulo();
+        this.mensagem = dados.mensagem();
+        this.autor = dados.autor();
+        this.curso = dados.curso();
+    }
 }
