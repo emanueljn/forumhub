@@ -12,7 +12,7 @@ public record TopicRecordData(
         String mensagem,
         @NotBlank
         String autor,
-        @NotBlank @Valid
+        @NotBlank
         String curso
 ) {
 }

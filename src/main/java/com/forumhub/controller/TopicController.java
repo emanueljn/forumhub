@@ -1,17 +1,14 @@
 package com.forumhub.controller;
 
-import com.forumhub.domain.topic.Topic;
-import com.forumhub.domain.topic.TopicDatailData;
-import com.forumhub.domain.topic.TopicRecordData;
-import com.forumhub.domain.topic.TopicRepository;
+import com.forumhub.domain.topic.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
@@ -23,12 +20,14 @@ public class TopicController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity cadastrar(@RequestBody @Valid TopicRecordData dados, UriComponentsBuilder uriBilder) {
+    public ResponseEntity<TopicDatailData> cadastrar(@RequestBody @Valid TopicRecordData dados, UriComponentsBuilder uriBilder) {
+        System.out.println(dados);
         var topico = new Topic(dados);
         repository.save(topico);
 
-        var uri = uriBilder.path("/topic/{id}").buildAndExpand(topico.getId()).toUri();
+        var uri = uriBilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new TopicDatailData(topico));
     }
 }
+
