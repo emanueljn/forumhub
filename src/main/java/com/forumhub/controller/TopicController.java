@@ -21,7 +21,6 @@ public class TopicController {
     @PostMapping
     @Transactional
     public ResponseEntity<TopicDatailData> cadastrar(@RequestBody @Valid TopicRecordData dados, UriComponentsBuilder uriBilder) {
-        System.out.println(dados);
         var topico = new Topic(dados);
         repository.save(topico);
 
