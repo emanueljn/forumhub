@@ -15,8 +15,11 @@ import java.time.ZoneOffset;
 @Service
 public class TokenService {
 
-    @Value("${api.security.token.secret}")
+    @Value("${forumhub.security.token.secret}")
     private String secret;
+
+    @Value("${forumhub.security.token.expiration}")
+    private Integer expiration;
 
     public String gerarToken(User usuario) {
         try {
@@ -45,6 +48,6 @@ public class TokenService {
     }
 
     private Instant dataExpiracao() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusHours(expiration).toInstant(ZoneOffset.of("-03:00"));
     }
 }

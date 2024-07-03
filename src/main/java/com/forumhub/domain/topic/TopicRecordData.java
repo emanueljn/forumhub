@@ -22,4 +22,8 @@ public record TopicRecordData(
         public Instant dataCriacao() {
                 return LocalDateTime.now().toInstant(ZoneOffset.of("-03:00"));
         }
+
+        public Status status() {
+                return Status.SEM_RESPOSTA;
+        }
 }

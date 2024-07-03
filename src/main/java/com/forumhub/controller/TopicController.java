@@ -28,5 +28,12 @@ public class TopicController {
 
         return ResponseEntity.created(uri).body(new TopicDatailData(topico));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity detalhar(@PathVariable Long id) {
+        var topico = repository.getReferenceById(id);
+
+        return ResponseEntity.ok(new TopicDatailData(topico));
+    }
 }
 

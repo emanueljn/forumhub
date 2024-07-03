@@ -35,5 +35,6 @@ public class Topic {
         this.autor = dados.autor();
         this.curso = dados.curso();
         this.dataCriacao = Date.from(dados.dataCriacao());
+        this.status = dados.status();
     }
 }
