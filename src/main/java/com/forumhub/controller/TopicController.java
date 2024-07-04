@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("topicos")
 public class TopicController {
@@ -20,20 +22,20 @@ public class TopicController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<TopicDatailData> cadastrar(@RequestBody @Valid TopicRecordData dados, UriComponentsBuilder uriBilder) {
+    public ResponseEntity<TopicDetailData> cadastrar(@RequestBody @Valid TopicRecordData dados, UriComponentsBuilder uriBilder) {
         var topico = new Topic(dados);
         repository.save(topico);
 
         var uri = uriBilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new TopicDatailData(topico));
+        return ResponseEntity.created(uri).body(new TopicDetailData(topico));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity detalhar(@PathVariable Long id) {
         var topico = repository.getReferenceById(id);
 
-        return ResponseEntity.ok(new TopicDatailData(topico));
+        return ResponseEntity.ok(new TopicDetailData(topico));
     }
 
     @GetMapping
@@ -55,14 +57,15 @@ public class TopicController {
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity atualizar(@PathVariable Long id, @RequestBody @Valid DataUpdateTopic dados) {
-        var Topic = repository.findById(id);
-        if (Topic.isEmpty()) {
+        Optional<Topic> optionalTopic = repository.findById(id);
+
+        if (optionalTopic.isPresent()) {
+            Topic topic = optionalTopic.get();
+            topic.atualizarInformacoes(dados);
+            repository.save(topic);
+            return ResponseEntity.ok(new TopicDetailData(topic));
+        } else {
             return ResponseEntity.notFound().build();
         }
-        var topic = Topic.get();
-        topic.atualizarInformacoes(dados);
-        repository.save(topic);
-
-        return ResponseEntity.ok(new TopicDatailData(topic));
     }
 }
