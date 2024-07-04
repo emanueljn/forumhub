@@ -68,4 +68,15 @@ public class TopicController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity excluir(@PathVariable Long id) {
+        Optional<Topic> optionalTopic = repository.findById(id);
+
+        if (optionalTopic.isPresent()) {
+        repository.deleteById(id);}
+
+        return ResponseEntity.noContent().build();
+    }
 }
