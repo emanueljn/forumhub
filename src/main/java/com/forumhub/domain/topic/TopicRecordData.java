@@ -16,7 +16,7 @@ public record TopicRecordData(
         String mensagem,
         @NotBlank
         String autor,
-        @NotBlank
+        @NotBlank //@Valid
         String curso
 ) {
         public Instant dataCriacao() {

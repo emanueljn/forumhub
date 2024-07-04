@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("topicos")
 public class TopicController {
@@ -34,6 +37,22 @@ public class TopicController {
         var topico = repository.getReferenceById(id);
 
         return ResponseEntity.ok(new TopicDatailData(topico));
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<ListTopicData>> listar(
+            @PageableDefault(size = 10, sort = {"dataCriacao"}, direction = org.springframework.data.domain.Sort.Direction.ASC) Pageable paginacao,
+            @RequestParam(value = "curso", required = false) String curso) {
+
+        Page<ListTopicData> page;
+
+        if (curso != null) {
+            page = repository.findByCurso(curso, paginacao).map(ListTopicData::new);
+        } else {
+            page = repository.findAll(paginacao).map(ListTopicData::new);
+        }
+
+        return ResponseEntity.ok(page);
     }
 }
 
