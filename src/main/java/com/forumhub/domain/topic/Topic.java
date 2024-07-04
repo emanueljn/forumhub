@@ -37,4 +37,19 @@ public class Topic {
         this.dataCriacao = Date.from(dados.dataCriacao());
         this.status = dados.status();
     }
+
+    public void atualizarInformacoes(DataUpdateTopic dados) {
+        if (dados.titulo() != null) {
+            this.titulo = dados.titulo();
+        }
+        if (dados.mensagem() != null) {
+            this.titulo = dados.mensagem();
+        }
+        if (dados.autor() != null) {
+            this.titulo = dados.autor();
+        }
+        if (dados.curso() != null) {
+            this.titulo = dados.curso();
+        }
+    }
 }

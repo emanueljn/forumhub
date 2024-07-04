@@ -11,9 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.sql.Date;
-import java.time.LocalDate;
-
 @RestController
 @RequestMapping("topicos")
 public class TopicController {
@@ -54,5 +51,18 @@ public class TopicController {
 
         return ResponseEntity.ok(page);
     }
-}
 
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity atualizar(@PathVariable Long id, @RequestBody @Valid DataUpdateTopic dados) {
+        var Topic = repository.findById(id);
+        if (Topic.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        var topic = Topic.get();
+        topic.atualizarInformacoes(dados);
+        repository.save(topic);
+
+        return ResponseEntity.ok(new TopicDatailData(topic));
+    }
+}
