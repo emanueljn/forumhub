@@ -1,6 +1,6 @@
 package com.forumhub.domain.user;
 
-import com.forumhub.domain.topic.DataUpdateTopic;
+import com.forumhub.domain.Perfil.Perfil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -11,8 +11,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Table(name = "usuarios")
 @Entity(name = "User")
@@ -25,6 +25,14 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "usuario_perfil",
+            joinColumns = @JoinColumn(name = "usuario_id"),
+            inverseJoinColumns = @JoinColumn(name = "perfil_id"))
+    private Set<Perfil> perfis;
+
+    private String nome;
     private String login;
     private String senha;
 

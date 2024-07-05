@@ -1,8 +1,8 @@
 package com.forumhub.domain.user;
 
-public record DataDetailUser(Long id, String login, String senha) {
+public record DataDetailUser(Long id, String nome, String login, String senha) {
 
     public DataDetailUser(User usuario) {
-        this(usuario.getId(), usuario.getLogin(), usuario.getSenha());
+        this(usuario.getId(), usuario.getNome(), usuario.getLogin(), usuario.getSenha());
     }
 }
