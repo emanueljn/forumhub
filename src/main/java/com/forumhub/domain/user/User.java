@@ -1,6 +1,6 @@
 package com.forumhub.domain.user;
 
-import com.forumhub.domain.Perfil.Perfil;
+import com.forumhub.domain.perfil.Perfil;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;

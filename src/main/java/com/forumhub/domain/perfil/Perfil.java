@@ -1,4 +1,4 @@
-package com.forumhub.domain.Perfil;
+package com.forumhub.domain.perfil;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Table(name = "perfis")
-@Entity(name = "Perfil")
+@Entity(name = "perfil")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

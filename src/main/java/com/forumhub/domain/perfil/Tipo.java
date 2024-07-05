@@ -1,4 +1,4 @@
-package com.forumhub.domain.Perfil;
+package com.forumhub.domain.perfil;
 
 
 public enum Tipo {
