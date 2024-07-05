@@ -22,33 +22,33 @@ public class TopicController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<TopicDetailData> cadastrar(@RequestBody @Valid TopicRecordData dados, UriComponentsBuilder uriBilder) {
+    public ResponseEntity<DataDetailTopic> cadastrar(@RequestBody @Valid DataRecordTopic dados, UriComponentsBuilder uriBilder) {
         var topico = new Topic(dados);
         repository.save(topico);
 
         var uri = uriBilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
 
-        return ResponseEntity.created(uri).body(new TopicDetailData(topico));
+        return ResponseEntity.created(uri).body(new DataDetailTopic(topico));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity detalhar(@PathVariable Long id) {
         var topico = repository.getReferenceById(id);
 
-        return ResponseEntity.ok(new TopicDetailData(topico));
+        return ResponseEntity.ok(new DataDetailTopic(topico));
     }
 
     @GetMapping
-    public ResponseEntity<Page<ListTopicData>> listar(
+    public ResponseEntity<Page<DataListTopic>> listar(
             @PageableDefault(size = 10, sort = {"dataCriacao"}, direction = org.springframework.data.domain.Sort.Direction.ASC) Pageable paginacao,
             @RequestParam(value = "curso", required = false) String curso) {
 
-        Page<ListTopicData> page;
+        Page<DataListTopic> page;
 
         if (curso != null) {
-            page = repository.findByCurso(curso, paginacao).map(ListTopicData::new);
+            page = repository.findByCurso(curso, paginacao).map(DataListTopic::new);
         } else {
-            page = repository.findAll(paginacao).map(ListTopicData::new);
+            page = repository.findAll(paginacao).map(DataListTopic::new);
         }
 
         return ResponseEntity.ok(page);
@@ -63,7 +63,7 @@ public class TopicController {
             Topic topic = optionalTopic.get();
             topic.atualizarInformacoes(dados);
             repository.save(topic);
-            return ResponseEntity.ok(new TopicDetailData(topic));
+            return ResponseEntity.ok(new DataDetailTopic(topic));
         } else {
             return ResponseEntity.notFound().build();
         }

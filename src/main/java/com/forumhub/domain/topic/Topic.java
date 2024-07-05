@@ -29,7 +29,7 @@ public class Topic {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    public Topic(TopicRecordData dados) {
+    public Topic(DataRecordTopic dados) {
         this.titulo = dados.titulo();
         this.mensagem = dados.mensagem();
         this.autor = dados.autor();

@@ -1,5 +1,6 @@
 package com.forumhub.domain.user;
 
+import com.forumhub.domain.topic.DataUpdateTopic;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -10,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 @Table(name = "usuarios")
@@ -25,6 +27,11 @@ public class User implements UserDetails {
     private Long id;
     private String login;
     private String senha;
+
+    public User(DataRecordUser dados) {
+        this.login = dados.login();
+        this.senha = dados.senha();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -59,5 +66,14 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
+    }
+
+    public void atualizarInformacoes(DataUpdateUser dados) {
+        if (dados.login() != null) {
+            this.login = dados.login();
+        }
+        if (dados.senha() != null) {
+            this.senha = dados.senha();
+        }
     }
 }
