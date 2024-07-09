@@ -4,7 +4,7 @@ create table respostas(
     usuario_id bigint not null,
     topico_id bigint not null,
     mensagem varchar(510) not null,
-    data_criacao datetime,
+    data_criacao datetime not null,
     solucao varchar(510) not null,
 
     primary key(id),

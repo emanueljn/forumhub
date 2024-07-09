@@ -8,7 +8,7 @@ create table usuarios(
 
 
     primary key(id)
-    constraint fk_usuarios_perfil_id foreign key(perfil_id) references perfis(id),
+    constraint fk_usuarios_perfil_id foreign key(perfil_id) references perfis(id)
 
 );
 
