@@ -1,10 +1,10 @@
 package com.forumhub.domain.response;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-public record DataListResponse(String mensagem, Long topico, Date dataCriacao, Long autor, String solucao) {
+public record DataListResponse(String mensagem, Long idTopico, Long idUsuario, LocalDateTime dataCriacao, String solucao) {
 
     public DataListResponse(Response resposta) {
-        this(resposta.getMensagem(), resposta.getTopico(), resposta.getDataCriacao(), resposta.getAutor(), resposta.getSolucao());
+        this(resposta.getMensagem(), resposta.getIdTopico().getId(), resposta.getIdUsuario().getId(), resposta.getDataCriacao(), resposta.getSolucao());
     }
 }

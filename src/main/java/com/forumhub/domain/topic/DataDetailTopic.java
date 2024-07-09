@@ -1,10 +1,12 @@
 package com.forumhub.domain.topic;
 
-import java.util.Date;
+import com.forumhub.domain.response.Response;
 
-public record DataDetailTopic(Long id, String titulo, String mensagem, Date dataCriacao, String autor, String curso, String respostas, Status status) {
+import java.time.LocalDateTime;
+
+public record DataDetailTopic(Long id, String titulo, String mensagem, LocalDateTime dataCriacao, Long idAutor, String curso, java.util.Set<Response> respostas, Status status) {
 
     public DataDetailTopic(Topic topico) {
-        this(topico.getId(), topico.getTitulo(), topico.getMensagem(), topico.getDataCriacao(), topico.getAutor(), topico.getCurso(), topico.getRespostas(), topico.getStatus());
+        this(topico.getId(), topico.getTitulo(), topico.getMensagem(), topico.getDataCriacao(), topico.getIdUsuario().getId(), topico.getCurso(), topico.getResposta(), topico.getStatus());
     }
 }

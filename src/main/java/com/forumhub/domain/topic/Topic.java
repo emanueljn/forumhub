@@ -1,12 +1,16 @@
 package com.forumhub.domain.topic;
 
+import com.forumhub.domain.response.Response;
+import com.forumhub.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Table(name = "topicos")
 @Entity(name = "Topic")
@@ -21,22 +25,21 @@ public class Topic {
     private Long id;
     private String titulo;
     private String mensagem;
-    private Date dataCriacao;
-    private String autor;
+
+    @Column(name = "data_criacao")
+    private LocalDateTime dataCriacao;
+
     private String curso;
-    private String respostas;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private User idUsuario;
+
+    @OneToMany(mappedBy = "idTopico", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Response> resposta = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     private Status status;
-
-    public Topic(DataRecordTopic dados) {
-        this.titulo = dados.titulo();
-        this.mensagem = dados.mensagem();
-        this.autor = dados.autor();
-        this.curso = dados.curso();
-        this.dataCriacao = Date.from(dados.dataCriacao());
-        this.status = dados.status();
-    }
 
     public void atualizarInformacoes(DataUpdateTopic dados) {
         if (dados.titulo() != null) {

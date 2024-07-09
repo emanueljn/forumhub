@@ -1,12 +1,14 @@
 package com.forumhub.domain.response;
 
+import com.forumhub.domain.topic.Topic;
+import com.forumhub.domain.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Table(name = "respostas")
 @Entity(name = "Response")
@@ -20,28 +22,27 @@ public class Response {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "topico_id")
-    private Long topico;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "topico_id")
+    private Topic idTopico;
 
-    @Column(name = "usuario_id")
-    private Long autor;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
+    private User idUsuario;
 
     private String mensagem;
 
     private String solucao;
 
-    private Date dataCriacao;
-
-    public Response(DataRecordResponse dados, TopicService topicService) {
-        this.topico = dados.topico();
-        this.autor = dados.autor();
-        this.solucao = dados.solucao();
-        this.dataCriacao = Date.from(dados.dataCriacao());
-    }
+    private LocalDateTime dataCriacao;
 
     public void atualizarInformacoes(DataUpdateResponse dados) {
         if (dados.solucao() != null) {
             this.solucao = dados.solucao();
         }
+    }
+
+    public LocalDateTime dataCriacao() {
+        return LocalDateTime.now();
     }
 }

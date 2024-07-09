@@ -1,6 +1,7 @@
 package com.forumhub.controller;
 
 import com.forumhub.domain.topic.*;
+import com.forumhub.domain.user.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
+
+import static com.forumhub.domain.topic.Status.SEM_RESPOSTA;
 
 @RestController
 @RequestMapping("topicos")
@@ -20,10 +24,20 @@ public class TopicController {
     @Autowired
     private TopicRepository repository;
 
+    @Autowired
+    private TopicRepository topicRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @PostMapping
     @Transactional
     public ResponseEntity<DataDetailTopic> cadastrar(@RequestBody @Valid DataRecordTopic dados, UriComponentsBuilder uriBilder) {
-        var topico = new Topic(dados);
+        LocalDateTime dataCriacao = LocalDateTime.now();
+        var idUsuario = userRepository.getReferenceById(dados.idAutor());
+
+        var topico = new Topic(null, dados.titulo(), dados.mensagem(), dataCriacao, dados.curso(), idUsuario, null, SEM_RESPOSTA);
+
         repository.save(topico);
 
         var uri = uriBilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
@@ -41,13 +55,19 @@ public class TopicController {
     @GetMapping
     public ResponseEntity<Page<DataListTopic>> listar(
             @PageableDefault(size = 10, sort = {"dataCriacao"}, direction = org.springframework.data.domain.Sort.Direction.ASC) Pageable paginacao,
-            @RequestParam(value = "curso", required = false) String curso) {
+            @RequestParam(value = "curso", required = false) String curso,
+            @RequestParam(value = "ano", required = false) Integer ano) {
 
         Page<DataListTopic> page;
 
+        if (curso != null && ano != null) {
+            page = repository.findByCursoAndAnoDataCriacao(curso, ano, paginacao).map(DataListTopic::new);
+        }
         if (curso != null) {
             page = repository.findByCurso(curso, paginacao).map(DataListTopic::new);
-        } else {
+        } else if (ano != null) {
+            page = repository.findByAnoDataCriacao(ano, paginacao).map(DataListTopic::new);
+        }else {
             page = repository.findAll(paginacao).map(DataListTopic::new);
         }
 

@@ -1,6 +1,8 @@
 package com.forumhub.controller;
 
 import com.forumhub.domain.response.*;
+import com.forumhub.domain.topic.TopicRepository;
+import com.forumhub.domain.user.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("respostas")
 public class ResponseController {
@@ -18,12 +22,28 @@ public class ResponseController {
     @Autowired
     private ResponseRepository repository;
 
+
+    @Autowired
+    private TopicRepository topicRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @PostMapping
     @Transactional
     public ResponseEntity<DataDetailResponse> cadastrar(@RequestBody @Valid DataRecordResponse dados, UriComponentsBuilder uriBilder) {
-        System.out.println(dados);
+//        if(!topicRepository.existsById(dados.idTopico())) {
+//            throw new ValidacaoException("Id do paciente informado não existe!");
+//        }
 
-        var resposta = new Response();
+        LocalDateTime dataCriacao = LocalDateTime.now();
+        var topico = topicRepository.findById(dados.idTopico()).get();
+
+        var idTopico = topicRepository.getReferenceById(dados.idTopico());
+        var idUsuario = userRepository.getReferenceById(dados.idAutor());
+
+
+        var resposta = new Response(null, idTopico, idUsuario, topico.getMensagem(), dados.solucao(), dataCriacao);
         repository.save(resposta);
 
         var uri = uriBilder.path("/resposta/{id}").buildAndExpand(resposta.getId()).toUri();
