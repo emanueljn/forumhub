@@ -4,11 +4,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record DataRecordResponse(
-        @NotNull
+
+        @NotNull(message = "Id do tópico é obrigatório")
         Long idTopico,
-        @NotNull
+
+        @NotNull(message = "Id do autor é obrigatório")
         Long idAutor,
-        @NotBlank
+
+        @NotBlank(message = "Solução é obrigatória")
         String solucao
 ) {
 }

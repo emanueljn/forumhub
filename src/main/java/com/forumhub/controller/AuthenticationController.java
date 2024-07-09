@@ -1,5 +1,6 @@
 package com.forumhub.controller;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.forumhub.domain.user.DataAuthentication;
 import com.forumhub.domain.user.User;
 import com.forumhub.infra.security.TokenJWTData;
@@ -8,6 +9,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,9 +36,12 @@ public class AuthenticationController {
             var tokenJWT =tokenService.gerarToken((User) authentication.getPrincipal());
 
             return ResponseEntity.ok(new TokenJWTData(tokenJWT));
-        } catch (Exception e) {
+        } catch (JWTVerificationException e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("Ocorreu um erro: " + e.getMessage());
         }
     }
 }

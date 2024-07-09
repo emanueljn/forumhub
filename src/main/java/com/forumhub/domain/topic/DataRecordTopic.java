@@ -3,17 +3,18 @@ package com.forumhub.domain.topic;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDateTime;
-
 public record DataRecordTopic(
 
-        @NotBlank
+        @NotBlank(message = "Título do tópico é obrigatório")
         String titulo,
-        @NotBlank
+
+        @NotBlank(message = "Mensagem do usuário é obrigatório")
         String mensagem,
-        @NotNull
+
+        @NotNull(message = "Id do autor do é obrigatório")
         Long idAutor,
-        @NotBlank //@Valid
+
+        @NotBlank(message = "Curso é obrigatório")
         String curso
 ) {
 }

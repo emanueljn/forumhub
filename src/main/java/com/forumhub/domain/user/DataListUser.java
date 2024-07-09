@@ -1,7 +1,8 @@
 package com.forumhub.domain.user;
 
-public record DataListUser(String login, String senha) {
+public record DataListUser(Long id, String nomeUsuario, String login) {
+
     public DataListUser(User usuario) {
-        this(usuario.getLogin(), usuario.getSenha());
+        this(usuario.getId(), usuario.getUsername(), usuario.getLogin());
     }
 }

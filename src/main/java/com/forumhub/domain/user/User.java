@@ -27,13 +27,13 @@ public class User implements UserDetails {
     private Long id;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "usuario_perfil",
-            joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "perfil_id"))
+    @JoinTable(name = "usuario_perfil", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "perfil_id"))
     private Set<Perfil> perfis;
 
     private String nome;
+
     private String login;
+
     private String senha;
 
     public User(DataRecordUser dados) {

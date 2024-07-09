@@ -34,6 +34,7 @@ public class TopicController {
     @Transactional
     public ResponseEntity<DataDetailTopic> cadastrar(@RequestBody @Valid DataRecordTopic dados, UriComponentsBuilder uriBilder) {
         LocalDateTime dataCriacao = LocalDateTime.now();
+
         var idUsuario = userRepository.getReferenceById(dados.idAutor());
 
         var topico = new Topic(null, dados.titulo(), dados.mensagem(), dataCriacao, dados.curso(), idUsuario, null, SEM_RESPOSTA);
@@ -47,8 +48,8 @@ public class TopicController {
 
     @GetMapping("/{id}")
     public ResponseEntity detalhar(@PathVariable Long id) {
-        var topico = repository.getReferenceById(id);
 
+        var topico = repository.getReferenceById(id);
         return ResponseEntity.ok(new DataDetailTopic(topico));
     }
 

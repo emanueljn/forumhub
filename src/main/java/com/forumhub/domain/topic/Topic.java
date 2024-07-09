@@ -23,7 +23,9 @@ public class Topic {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String titulo;
+
     private String mensagem;
 
     @Column(name = "data_criacao")

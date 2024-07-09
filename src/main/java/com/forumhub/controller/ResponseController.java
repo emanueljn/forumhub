@@ -3,6 +3,7 @@ package com.forumhub.controller;
 import com.forumhub.domain.response.*;
 import com.forumhub.domain.topic.TopicRepository;
 import com.forumhub.domain.user.UserRepository;
+import com.forumhub.infra.exception.ValidacaoException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,9 +33,18 @@ public class ResponseController {
     @PostMapping
     @Transactional
     public ResponseEntity<DataDetailResponse> cadastrar(@RequestBody @Valid DataRecordResponse dados, UriComponentsBuilder uriBilder) {
-//        if(!topicRepository.existsById(dados.idTopico())) {
-//            throw new ValidacaoException("Id do paciente informado não existe!");
-//        }
+
+        if(!topicRepository.existsById(dados.idTopico()) && !userRepository.existsById(dados.idAutor())) {
+            throw new ValidacaoException("Id do tópico e id do usuário informados não existem!");
+        }
+
+        if(!topicRepository.existsById(dados.idTopico())) {
+            throw new ValidacaoException("Id do tópico informado não existe!");
+        }
+
+        if(!userRepository.existsById(dados.idAutor())) {
+            throw new ValidacaoException("Id do usuário informado não existe!");
+        }
 
         LocalDateTime dataCriacao = LocalDateTime.now();
         var topico = topicRepository.findById(dados.idTopico()).get();

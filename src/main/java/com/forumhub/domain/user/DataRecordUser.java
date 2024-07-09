@@ -2,16 +2,12 @@ package com.forumhub.domain.user;
 
 import jakarta.validation.constraints.NotBlank;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-
-
 public record DataRecordUser(
 
-        @NotBlank
+        @NotBlank(message = "Email do usuário é obrigatório")
         String login,
-        @NotBlank
+
+        @NotBlank(message = "Senha do usuário  é obrigatória")
         String senha
 ) {
 }

@@ -1,5 +1,6 @@
 package com.forumhub.domain.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.forumhub.domain.topic.Topic;
 import com.forumhub.domain.user.User;
 import jakarta.persistence.*;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Response {
 
     @Id
