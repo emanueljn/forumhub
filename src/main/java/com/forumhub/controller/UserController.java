@@ -1,6 +1,7 @@
 package com.forumhub.controller;
 
 import com.forumhub.domain.user.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +33,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity detalhar(@PathVariable Long id) {
         var usuario = repository.getReferenceById(id);
 
@@ -39,6 +41,7 @@ public class UserController {
     }
 
     @GetMapping
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity<Page<DataListUser>> listar(
             @PageableDefault(size = 10) Pageable paginacao) {
 
@@ -49,6 +52,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity atualizar(@PathVariable Long id, @RequestBody @Valid DataUpdateUser dados) {
         Optional<User> optionalUser = repository.findById(id);
 
@@ -64,6 +68,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @Transactional
+    @SecurityRequirement(name = "bearer-key")
     public ResponseEntity excluir(@PathVariable Long id) {
         Optional<User> optionalUser = repository.findById(id);
 

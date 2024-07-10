@@ -4,6 +4,7 @@ import com.forumhub.domain.response.*;
 import com.forumhub.domain.topic.TopicRepository;
 import com.forumhub.domain.user.UserRepository;
 import com.forumhub.infra.exception.ValidacaoException;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("respostas")
+@SecurityRequirement(name = "bearer-key")
 public class ResponseController {
 
     @Autowired

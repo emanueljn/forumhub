@@ -2,6 +2,7 @@ package com.forumhub.controller;
 
 import com.forumhub.domain.topic.*;
 import com.forumhub.domain.user.UserRepository;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,7 @@ import static com.forumhub.domain.topic.Status.SEM_RESPOSTA;
 
 @RestController
 @RequestMapping("topicos")
+@SecurityRequirement(name = "bearer-key")
 public class TopicController {
 
     @Autowired
