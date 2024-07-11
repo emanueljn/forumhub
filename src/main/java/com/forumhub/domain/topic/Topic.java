@@ -57,4 +57,8 @@ public class Topic {
             this.titulo = dados.curso();
         }
     }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }

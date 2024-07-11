@@ -1,6 +1,7 @@
 package com.forumhub.controller;
 
 import com.forumhub.domain.response.*;
+import com.forumhub.domain.topic.Status;
 import com.forumhub.domain.topic.TopicRepository;
 import com.forumhub.domain.user.UserRepository;
 import com.forumhub.infra.exception.ValidacaoException;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
+
+import static com.forumhub.domain.topic.Status.RESPONDIDO;
 
 @RestController
 @RequestMapping("respostas")
@@ -56,6 +59,12 @@ public class ResponseController {
 
 
         var resposta = new Response(null, idTopico, idUsuario, topico.getMensagem(), dados.solucao(), dataCriacao);
+
+        if (topico.getStatus() != Status.RESPONDIDO) {
+            topico.setStatus(Status.RESPONDIDO);
+            topicRepository.save(topico);
+        }
+
         repository.save(resposta);
 
         var uri = uriBilder.path("/resposta/{id}").buildAndExpand(resposta.getId()).toUri();
