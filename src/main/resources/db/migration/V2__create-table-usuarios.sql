@@ -3,7 +3,7 @@ create table usuarios(
     id bigint not null auto_increment,
     perfil_id bigint not null,
     nome varchar(255) not null,
-    login varchar(100) not null,
+    login varchar(100) not null unique,
     senha varchar(255) not null,
 
 

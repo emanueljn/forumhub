@@ -15,7 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("usuarios")
+@RequestMapping("usuario")
 public class UserController {
 
     @Autowired
@@ -25,9 +25,10 @@ public class UserController {
     @Transactional
     public ResponseEntity<DataDetailUser> cadastrar(@RequestBody @Valid DataRecordUser dados, UriComponentsBuilder uriBilder) {
         var usuario = new User(dados);
+
         repository.save(usuario);
 
-        var uri = uriBilder.path("/usuarios/{id}").buildAndExpand(usuario.getId()).toUri();
+        var uri = uriBilder.path("/usuario/{id}").buildAndExpand(usuario.getId()).toUri();
 
         return ResponseEntity.created(uri).body(new DataDetailUser(usuario));
     }

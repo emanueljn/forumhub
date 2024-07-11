@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Table(name = "usuarios")
 @Entity(name = "User")
@@ -26,9 +26,8 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "usuario_perfil", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "perfil_id"))
-    private Set<Perfil> perfis;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Perfil perfil;
 
     private String nome;
 
@@ -36,10 +35,14 @@ public class User implements UserDetails {
 
     private String senha;
 
+
     public User(DataRecordUser dados) {
+        this.nome = dados.nome();
         this.login = dados.login();
-        this.senha = dados.senha();
+        this.senha = new BCryptPasswordEncoder().encode(dados.senha());
+        this.perfil = new Perfil(null, dados.tipoDeUsuario());
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -77,6 +80,10 @@ public class User implements UserDetails {
     }
 
     public void atualizarInformacoes(DataUpdateUser dados) {
+        if (dados.nome() != null) {
+            this.nome = dados.nome();
+        }
+
         if (dados.login() != null) {
             this.login = dados.login();
         }
